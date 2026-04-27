@@ -1,14 +1,11 @@
-// backend/index.js
 require('dotenv').config();
 const express = require('express');
 const conectarDB = require('./config/db.js');
 
 const app = express();
 
-// Conectar a la base de datos
 conectarDB();
 
-// Middleware para leer JSON
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;

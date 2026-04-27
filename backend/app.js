@@ -1,40 +1,20 @@
 const express = require('express');
+const conectarDB = require('./config/db'); // Importas tu configuración de MongoDB
+require('dotenv').config(); // Para leer las variables del .env
+
 const app = express();
+
+// 1. Conectar a la Base de Datos
+conectarDB();
 
 app.use(express.json());
 
-let pedidos = [];
-
+// 2. Ejemplo de ruta usando Express
 app.get('/productos', (req, res) => {
-    res.json([
-        { id: 1, nombre: "Pizza", precio: 120 },
-        { id: 2, nombre: "Hamburguesa", precio: 90 },
-        { id: 3, nombre: "Tacos", precio: 70 }
-    ]);
+    res.json({ mensaje: "Aquí se mostrarán los productos de la DB" });
 });
 
-app.post('/pedido', (req, res) => {
-    const nuevoPedido = {
-        id: pedidos.length + 1,
-        cliente: req.body.cliente,
-        productos: req.body.productos,
-        total: req.body.total,
-        fecha: new Date()
-    };
-    
-    pedidos.push(nuevoPedido);
-    
-    res.status(201).json({
-        mensaje: "Pedido guardado con éxito",
-        pedido: nuevoPedido
-    });
-});
-
-app.get('/pedidos', (req, res) => {
-    res.json(pedidos);
-});
-
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`✅ Servidor backend corriendo en: http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
